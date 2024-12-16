@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar with Search Bar</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            padding: 0px 10px; 
+        }
+
+        .search-bar {
+            max-width: 400px;
+            margin: 10px 0px;
+        }
+
+        .search-bar .input-group {
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar .form-control {
+            border: none;
+            padding-left: 20px;
+        }
+
+        .search-bar .btn {
+            border: none;
+            padding: 5px 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center; 
+            gap: 10px; 
+        }
+
+        .user-name {
+            font-size: 18px;
+            color: #0d6efd; 
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+        }
+
+        .dropdown-menu {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        .profile-container img {
+            height: 36px; 
+            width: 36px; 
+        }
+
+       
+        .fa-bell, .fa-message {
+            font-size: 25px;
+        }
+
+        .badge-notify {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            padding: 0px 4px;
+            border-radius: 50%;
+            font-size: 10px;
+            min-width: 12px;
+            height: 15px;
+            line-height: 12px;
+        }
+        .badge-blue {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .badge-green {
+            background-color: green;
+            color: white;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px; 
+        }
+
+        .dropdown-item i {
+            font-size: 16px;  
+            margin-right: 10px; 
+        }
+
+        .dropdown-item {
+            text-align: left;
+        }
+
+        .dropdown-header {
+            text-align: center;
+            font-size: 18px;
+            padding: 10px 15px;
+        }
+
+        
+        .sidebar {
+            position: absolute;
+            top: 70px;
+            left: 10px;
+            bottom: 0;
+            width: 250px;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar .nav-item {
+            margin: 20px 0;
+        }
+
+        
+        .content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .content.sidebar-open {
+            margin-left: 250px;
+        }
+        .collapse.show + .arrow-icon {
+    transform: rotate(180deg);
+}
+
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <i class="fa-solid fa-bars" id="menuToggle" style="cursor: pointer;"></i> 
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                
+                <div class="mx-auto search-bar">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search..."
+                            aria-label="Search"
+                        />
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            id="search-addon"
+                            aria-label="Search button"
+                        >
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center position-relative">
+                    <a class="text-reset me-3 position-relative" href="#">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge-notify badge-blue">2</span>
+                    </a>
+                    <a class="text-reset me-3 position-relative" href="#">
+                        <i class="fa-regular fa-message"></i>
+                        <span class="badge-notify badge-green">3</span>
+                    </a>
+
+                    <div class="dropdown">
+                        <div class="profile-container" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img
+                                src="https://mdbcdn.b-cdn.net/img/new/avatars/5.webp"
+                                class="rounded-circle"
+                                alt="User Avatar"
+                                loading="lazy"
+                            />
+                            <span class="user-name">Zoya Shaikh</span>
+                            <a class="dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuAvatar" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                            <li class="dropdown-header">Web Designer</li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fa-regular fa-user me-3"></i> My profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fa-solid fa-gear me-3"></i> Account Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fa-solid fa-question me-4"></i> Need Help?
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fa-solid fa-arrow-right-from-bracket me-3"></i> Sign Out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="sidebar" id="sidebar">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li>
+                            <a href="#" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline"> <i class="fa-solid fa-gauge"  style="color: gray;"></i> Dashboard</span> </a>
+                        </li>
+                        <li>
+                            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-person"></i>
+                                <span class="ms-1 d-none d-sm-inline"><i class="fa-brands fa-square" style="color: gray;"></i> Components</span>
+                              
+                                <i class="fa fa-chevron-down ms-auto arrow-icon" style="transition: transform 0.3s;"></i>
+                            </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-person"></i>
+                                <span class="ms-1 d-none d-sm-inline"><i class="fa-brands fa-wpforms" style="color: gray;"></i> Forms</span>
+                              
+                                <i class="fa fa-chevron-down ms-auto arrow-icon" style="transition: transform 0.3s;"></i>
+                            </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        
+                       <li>
+    <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+        <i class="fs-4 bi-person"></i>
+        <span class="ms-1 d-none d-sm-inline"><i class="fa-solid fa-table" style="color: gray;"></i> Tables</span>
+     
+        <i class="fa fa-chevron-down ms-auto arrow-icon" style="transition: transform 0.3s;"></i>
+    </a>
+    <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+        <li class="w-100">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+        </li>
+    </ul>
+</li>
+<li>
+    <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+        <i class="fs-4 bi-person"></i>
+        <span class="ms-1 d-none d-sm-inline"><i class="fa-solid fa-chart-gantt" style="color: gray;"></i> Charts</span>
+       
+        <i class="fa fa-chevron-down ms-auto arrow-icon" style="transition: transform 0.3s;"></i>
+    </a>
+    <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
+        <li class="w-100">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+        </li>
+    </ul>
+</li>
+ 
+                    </ul>
+                </div>
+            </div>
+            <div class="content w-100 p-4">
+              Content Here...
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const content = document.querySelector('.content');
+
+        menuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+            content.classList.toggle('sidebar-open');
+        });
+    </script>
+</body>
+</html>
